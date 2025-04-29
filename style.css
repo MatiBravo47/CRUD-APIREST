@@ -1,0 +1,15 @@
+table {
+    border: 1px solid;
+}
+
+th{
+    text-align: left
+}
+
+#popUp {
+    overflow-x: hidden
+}
+
+label {
+    font-weight: bold
+}

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>TP Entregable</title>
+    <link rel="stylesheet" href="style.css">
+    jquery
+    <link rel='stylesheet' href='https://code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css'>
+    <script src='https://code.jquery.com/jquery-1.12.4.js'></script>
+    <script src='https://code.jquery.com/ui/1.12.1/jquery-ui.js'></script>
+</head>
+
+<body>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th colspan='2'></th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td></td>
+                <td><input id='name'/></td>
+                <td><input id='email'/></td>
+                <td colspan='2' style='text-align: center'>
+                    <button onclick='saveObject()'>ADD</button>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+
+    <div id='popUp'>
+        <table>
+            <tr>
+                <td>
+                    <label for='id2'>ID</label>
+                </td>
+                <td>
+                    <input name='id2' style='text-align: right' readonly />
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for='name2' >NAME</label>
+                </td>
+                <td>
+                    <input name='name2' style='text-align: right' />
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for='email2'>EMAIL</label>
+                </td>
+                <td>
+                    <input name='email2' style='text-align: right' />
+                </td>
+            <tr>
+                <td colspan='2' style='text-align: center'>
+                    <button onclick='updateObject()'>UPDATE</button>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <script src="scripts.js"></script>
+</body>
+
+</html>
