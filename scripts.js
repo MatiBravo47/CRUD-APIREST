@@ -97,12 +97,10 @@ function saveObject() {
         
             addObject()
                 .then((response) => {
-                    console.log("addObject",response);
                     insertTr(response, true);  
                     swal("Buen trabajo!", "Usuario agregado satisfactoriamente.", "success");               
                 })
                 .catch(reason => {
-                console.error('Error al agregar el objeto:' ,reason);
                 alert('Error: '+ reason.message);
                 });
     } else {
@@ -114,11 +112,8 @@ function saveObject() {
 function deleteObject(id) {
     removeObject(id)
         .then(() => {
-            console.log('Estoy en removeObject', id);
             const rows = document.querySelectorAll('tr')
             rows.forEach(row => {
-                console.log(row.getAttribute('id'));
-                console.log(id.toString());
                 if (row.getAttribute('id') === id.toString()) {
                     row.remove();
                     swal("Usuario eliminado!", "El usuario ha sido eliminado correctamente.", "success");
@@ -156,7 +151,6 @@ function updateObject() {
             swal("Usuario actualizado!", "El usuario ha sido actualizado correctamente.", "success");
         })
         .catch(reason => {
-            console.error('Error al actualizar el objeto:', reason);
             alert('Error al actualizar el objeto: ' + reason.message);
         });
     } else {
@@ -208,7 +202,6 @@ function insertTr(object, canChange) {
 }
 
 function viewObject(object) {
-    console.log("viewObject Ingreso",object);
     document.getElementsByName('id2')[0].value = object.id;
     document.getElementsByName('name2')[0].value = object.name;
     document.getElementsByName('lastName2')[0].value = object.data.lastName;
