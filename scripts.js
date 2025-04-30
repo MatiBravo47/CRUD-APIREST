@@ -94,14 +94,15 @@ function saveObject() {
             addObject()
                 .then((response) => {
                     console.log("addObject",response);
-                    insertTr(response, true);                 
+                    insertTr(response, true);  
+                    swal("Buen trabajo!", "Usuario agregado satisfactoriamente.", "success");               
                 })
                 .catch(reason => {
                 console.error('Error al agregar el objeto:' ,reason);
                 alert('Error: '+ reason.message);
                 });
     } else {
-        alert('Por favor, complete todos los campos.');
+        swal("Error", "Por favor, complete todos los campos.", "error");
     }
 }
 
@@ -115,7 +116,8 @@ function deleteObject(id) {
                 console.log(row.getAttribute('id'));
                 console.log(id.toString());
                 if (row.getAttribute('id') === id.toString()) {
-                    row.remove()
+                    row.remove();
+                    swal("Usuario eliminado!", "El usuario ha sido eliminado correctamente.", "success");
                     clearInputs()
                 }
             })
@@ -140,13 +142,15 @@ function updateObject() {
             }
             $('#popUp').dialog('close');
             clearInputs();
+
+            swal("Usuario actualizado!", "El usuario ha sido actualizado correctamente.", "success");
         })
         .catch(reason => {
             console.error('Error al actualizar el objeto:', reason);
             alert('Error al actualizar el objeto: ' + reason.message);
         });
     } else {
-        alert('Por favor, complete todos los campos.');
+        swal("Error", "Por favor, complete todos los campos.", "error");
     }
 }
 
