@@ -1,5 +1,6 @@
 //URL base de la API RESTful 
 const url = 'https://api.restful-api.dev/objects'
+
 // Al cargar la página exitosamente, oculta el cuadro de diálogo y obtiene los objetos de la API
 window.onload = () => {
     $('#popUp').hide();
@@ -27,7 +28,6 @@ function httpRequest(method, url, data = null) {
         request.send(data ? JSON.stringify(data): null); // Envía los datos (si los hay) como JSON
     });
 }
-
 //PROMESAS//
 
 //Realiza una solicitud GET a la API para obtener datos.
@@ -93,7 +93,7 @@ function saveObject() {
         
             addObject()
                 .then((response) => {
-                    console.log(response);
+                    console.log("addObject",response);
                     insertTr(response, true);                 
                 })
                 .catch(reason => {
@@ -107,30 +107,27 @@ function saveObject() {
 
 //Llama a removeObject() para eliminar un objeto y actualiza la tabla.
 function deleteObject(id) {
-    console.log("Estoy en deleteObject",id);
-    console.log("Estoy en deleteObject", id.id);
-    removeObject(id.id)
+    removeObject(id)
         .then(() => {
-            console.log('Estoy en removeObject', id.id);
+            console.log('Estoy en removeObject', id);
             const rows = document.querySelectorAll('tr')
             rows.forEach(row => {
                 console.log(row.getAttribute('id'));
                 console.log(id.toString());
-                if (row.getAttribute('id') === id.id.toString()) {
+                if (row.getAttribute('id') === id.toString()) {
                     row.remove()
                     clearInputs()
                 }
             })
         })
         .catch(reason => {
-            console.error(reason);
-            console.log("Diablo loco")
             alert('Error al eliminar el objeto: ' + reason.message);
         });
 }
 
 //Llama a modifyObject() para actualizar un objeto y actualiza la tabla.
 function updateObject() {
+    //Solo permite actualizar si ambos campos tienen datos
     if (document.getElementsByName('name2')[0].value.trim() !== '' &&
         document.getElementsByName('email2')[0].value.trim() !== '') {
         
@@ -169,14 +166,23 @@ function insertTr(object, canChange) {
     var emailCell = row.insertCell()
     emailCell.innerHTML = object.data.email;
 
-    const serializedObject = JSON.stringify(object);
     
     if (canChange) {
         const viewCell = row.insertCell()
-        viewCell.innerHTML = `<button onclick='viewObject(${serializedObject})'>VIEW</button>`
-        const delCell = row.insertCell()
-        delCell.innerHTML = `<button onclick='deleteObject(${object.id})'>DELETE</button>`
-        console.log("boton",object.id);
+        const viewButton = document.createElement('button');
+        viewButton.className = 'btn btn-view';
+        viewButton.textContent = 'VIEW';
+        viewButton.addEventListener('click',() => viewObject(object));
+
+        viewCell.appendChild(viewButton); 
+        
+        const delCell = row.insertCell();
+        const delButton = document.createElement('button');
+        delButton.className = 'btn';
+        delButton.textContent = 'DELETE';
+        delButton.addEventListener('click', () => deleteObject(object.id));
+        
+        delCell.appendChild(delButton);
     }
     clearInputs()
 }
