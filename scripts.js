@@ -209,6 +209,9 @@ function viewObject(object) {
     document.getElementsByName('gender2')[0].value = object.data.gender;
 
     $('#popUp').dialog({
+        modal: true,
+        width: 400,
+        height: 350,
         closeText: ''
     }).css('font-size', '15px')
 }
