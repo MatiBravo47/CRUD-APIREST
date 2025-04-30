@@ -1,6 +1,5 @@
 //URL base de la API RESTful 
 const url = 'https://api.restful-api.dev/objects'
-let currentId = 1;
 // Al cargar la página exitosamente, oculta el cuadro de diálogo y obtiene los objetos de la API
 window.onload = () => {
     $('#popUp').hide();
@@ -39,7 +38,6 @@ function loadObjects() {
 //Realiza una solicitud POST para agregar un nuevo objeto.
 function addObject() {
     const data = {
-        id: currentId++,
         name: document.getElementById('name').value,
         data: {
             email: document.getElementById('email').value
@@ -78,9 +76,6 @@ function getObjects() {
             response.forEach(object => {
             if (object.data && object.data.email) {
                 insertTr(object, true);
-                if (object.id > currentId) {
-                    currentId = object.id;
-                }
             }
         });
     })
@@ -112,14 +107,24 @@ function saveObject() {
 
 //Llama a removeObject() para eliminar un objeto y actualiza la tabla.
 function deleteObject(id) {
-    removeObject(id)
+    console.log("Estoy en deleteObject",id);
+    console.log("Estoy en deleteObject", id.id);
+    removeObject(id.id)
         .then(() => {
-            const row = document.getElementById(id);
-            if (row) row.remove();
-            clearInputs();
+            console.log('Estoy en removeObject', id.id);
+            const rows = document.querySelectorAll('tr')
+            rows.forEach(row => {
+                console.log(row.getAttribute('id'));
+                console.log(id.toString());
+                if (row.getAttribute('id') === id.id.toString()) {
+                    row.remove()
+                    clearInputs()
+                }
+            })
         })
         .catch(reason => {
             console.error(reason);
+            console.log("Diablo loco")
             alert('Error al eliminar el objeto: ' + reason.message);
         });
 }
@@ -156,24 +161,28 @@ function insertTr(object, canChange) {
     row.setAttribute('id', object.id)
     
     const idCell = row.insertCell()
-    idCell.innerHTML = object.id
+    idCell.innerHTML = object.id;
     
     var nameCell = row.insertCell();
     nameCell.innerHTML = object.name;
     
     var emailCell = row.insertCell()
     emailCell.innerHTML = object.data.email;
+
+    const serializedObject = JSON.stringify(object);
     
     if (canChange) {
         const viewCell = row.insertCell()
-        viewCell.innerHTML = `<button onclick='viewObject(${JSON.stringify(object)})'>VIEW</button>`
+        viewCell.innerHTML = `<button onclick='viewObject(${serializedObject})'>VIEW</button>`
         const delCell = row.insertCell()
         delCell.innerHTML = `<button onclick='deleteObject(${object.id})'>DELETE</button>`
+        console.log("boton",object.id);
     }
     clearInputs()
 }
 
 function viewObject(object) {
+    console.log("viewObject Ingreso",object);
     document.getElementsByName('id2')[0].value = object.id;
     document.getElementsByName('name2')[0].value = object.name;
     document.getElementsByName('email2')[0].value = object.data.email;
