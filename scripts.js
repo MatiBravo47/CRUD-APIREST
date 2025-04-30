@@ -40,7 +40,9 @@ function addObject() {
     const data = {
         name: document.getElementById('name').value,
         data: {
-            email: document.getElementById('email').value
+            lastName: document.getElementById('lastName').value,
+            email: document.getElementById('email').value,
+            gender: document.getElementById('gender').value
         }
     };
     // Verifica que el objeto sea válido antes de enviarlo
@@ -58,7 +60,9 @@ function modifyObject() {
     const data = {
         name: document.getElementsByName('name2')[0].value,
         data: {
-            email: document.getElementsByName('email2')[0].value
+            lastName: document.getElementsByName('lastName2')[0].value,
+            email: document.getElementsByName('email2')[0].value,
+            gender: document.getElementsByName('gender2')[0].value
         }
     };
     return httpRequest('PUT', `${url}/${id}`, data);
@@ -131,14 +135,20 @@ function deleteObject(id) {
 function updateObject() {
     //Solo permite actualizar si ambos campos tienen datos
     if (document.getElementsByName('name2')[0].value.trim() !== '' &&
-        document.getElementsByName('email2')[0].value.trim() !== '') {
+        document.getElementsByName('lastName2')[0].value.trim() !== ''&&
+        document.getElementsByName('email2')[0].value.trim() !== ''&&
+        document.getElementsByName('gender2')[0].value.trim() !== ''
+                                                                        )
+        {
         
         modifyObject()
             .then(updatedObject => {
             const row = document.getElementById(updatedObject.id)
             if (row) {
                 row.cells[1].innerText = updatedObject.name;
-                row.cells[2].innerText = updatedObject.data.email;
+                row.cells[2].innerText = updatedObject.data.lastName;
+                row.cells[3].innerText = updatedObject.data.email;
+                row.cells[4].innerText = updatedObject.data.gender;
             }
             $('#popUp').dialog('close');
             clearInputs();
@@ -166,9 +176,15 @@ function insertTr(object, canChange) {
     
     var nameCell = row.insertCell();
     nameCell.innerHTML = object.name;
+
+    var lastNameCell = row.insertCell();
+    lastNameCell.innerHTML = object.data.lastName;
     
     var emailCell = row.insertCell()
     emailCell.innerHTML = object.data.email;
+
+    var genderCell = row.insertCell()
+    genderCell.innerHTML = object.data.gender;
 
     
     if (canChange) {
@@ -195,7 +211,9 @@ function viewObject(object) {
     console.log("viewObject Ingreso",object);
     document.getElementsByName('id2')[0].value = object.id;
     document.getElementsByName('name2')[0].value = object.name;
+    document.getElementsByName('lastName2')[0].value = object.data.lastName;
     document.getElementsByName('email2')[0].value = object.data.email;
+    document.getElementsByName('gender2')[0].value = object.data.gender;
 
     $('#popUp').dialog({
         closeText: ''
@@ -204,6 +222,8 @@ function viewObject(object) {
 
 function clearInputs() {
     document.getElementById('name').value = '';
+    document.getElementById('lastName').value = '';
     document.getElementById('email').value = '';
+    document.getElementById('gender').value = '';
     document.getElementById('name').focus();
 }
