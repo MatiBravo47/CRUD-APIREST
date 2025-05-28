@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>TP Entregable</title>
+    <title>CRUD - APIREST</title>
     <link rel="stylesheet" href="style.css">
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <link rel='stylesheet' href='https://code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css'>
@@ -14,11 +14,11 @@
         <thead>
             <tr>
                 <th>ID</th>
-                <th>First Name</th>
-                <th>Last Name</th>
-                <th>Email</th>
-                <th>Gender</th>
-                <th>Actions</th>
+                <th>NOMBRE</th>
+                <th>APELLIDO</th>
+                <th>EMAIL</th>
+                <th>GENERO</th>
+                <th>ACCION</th>
                 <th colspan='2'></th>
             </tr>
         </thead>
@@ -32,7 +32,7 @@
                 <td><input id='email'/></td>
                 <td><input id='gender'/></td>
                 <td colspan='2' style='text-align: center'>
-                    <button class="btn btn-add" onclick='saveObject()'>ADD</button>
+                    <button class="btn btn-add" onclick='saveObject()'>AGREGAR</button>
                 </td>
             </tr>
         </tfoot>
@@ -41,27 +41,24 @@
     <div id='popUp'>
         <table>
             <tr>
+                <td><label for='id2'>ID</label>
+                </td>
+                <td><input id='id2' name='id2'class="inputPopUp" readonly /></td>
+            </tr>
+            <tr>
                 <td>
-                    <label for='id2'>ID</label>
+                    <label for='name2' >NOMBRE</label>
                 </td>
                 <td>
-                    <input name='id2'class="inputPopUp" readonly />
+                    <input id='name2' name='name2' class="inputPopUp" />
                 </td>
             </tr>
             <tr>
                 <td>
-                    <label for='name2' >NAME</label>
+                    <label for='lastName2' >APELLIDO</label>
                 </td>
                 <td>
-                    <input name='name2' class="inputPopUp" />
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <label for='lastName2' >LAST NAME</label>
-                </td>
-                <td>
-                    <input name='lastName2' class="inputPopUp" />
+                    <input id='lastName2' name='lastName2' class="inputPopUp" />
                 </td>
             </tr>
             <tr>
@@ -69,20 +66,20 @@
                     <label for='email2'>EMAIL</label>
                 </td>
                 <td>
-                    <input name='email2' class="inputPopUp" />
+                    <input id='email2' name='email2' class="inputPopUp" />
                 </td>
             <tr>
                 <tr>
                     <td>
-                        <label for='gender2'>GENDER</label>
+                        <label for='gender2'>GENERO</label>
                     </td>
                     <td>
-                        <input name='gender2' class="inputPopUp" />
+                        <input id='gender2' name='gender2' class="inputPopUp" />
                     </td>
                 <tr>
                 
                 <td colspan='2' style='text-align: center'>
-                    <button class="btn btn-add" onclick='updateObject()'>UPDATE</button>
+                    <button class="btn btn-add" onclick='updateObject()'>ACTUALIZAR</button>
                 </td>
             </tr>
         </table>
