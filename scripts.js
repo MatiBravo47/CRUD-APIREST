@@ -1,5 +1,4 @@
 //URL base de la API RESTful 
-//const url = 'https://api.restful-api.dev/objects'
 const url = 'https://crudcrud.com/api/32f77cb20f6e4d328835420c636a4cd5/usuarios'
 
 // Al cargar la página exitosamente, oculta el cuadro de diálogo y obtiene los objetos de la API
@@ -34,8 +33,7 @@ function getObjects() {
             var tbody = document.querySelector('tbody');
             tbody.innerHTML = '';
             response.forEach(object => {
-            //if (object.data && object.data.email) {
-            if (object.email) {
+            if (object.email) { 
                 insertTr(object, true);
             }
         });
@@ -55,12 +53,7 @@ function addObject() {
             name: document.getElementById('name').value,
             lastName: document.getElementById('lastName').value,
             email: document.getElementById('email').value,
-            gender: document.getElementById('gender').value
-            //data: {
-            //    lastName: document.getElementById('lastName').value,
-            //    email: document.getElementById('email').value,
-            //    gender: document.getElementById('gender').value
-            //}   
+            gender: document.getElementById('gender').value 
         }; 
         request.onload = () => {
                 if(request.status == 200 || request.status == 201){
@@ -78,28 +71,22 @@ function insertTr(object, canChange) {
     const tbody = document.querySelector('tbody');
     const row = tbody.insertRow();
     row.setAttribute('id', object._id)
-    //row.setAttribute('id', object.id)
     
     const idCell = row.insertCell()
     idCell.innerHTML = object._id;
-    //idCell.innerHTML = object.id;
     
     var nameCell = row.insertCell();
     nameCell.innerHTML = object.name;
 
     var lastNameCell = row.insertCell();
     lastNameCell.innerHTML = object.lastName;
-    //lastNameCell.innerHTML = object.data.lastName;
     
     var emailCell = row.insertCell()
     emailCell.innerHTML = object.email;
-    //emailCell.innerHTML = object.data.email;
 
     var genderCell = row.insertCell()
     genderCell.innerHTML = object.gender;
-    //genderCell.innerHTML = object.data.gender;
 
-    
     if (canChange) {
         const viewCell = row.insertCell()
         const viewButton = document.createElement('button');
@@ -114,7 +101,6 @@ function insertTr(object, canChange) {
         delButton.className = 'btn';
         delButton.textContent = 'BORRAR';
         delButton.addEventListener('click', () => deleteObject(object._id));
-        //delButton.addEventListener('click', () => deleteObject(object.id));
         
         delCell.appendChild(delButton);
     }
@@ -179,7 +165,6 @@ function deleteObject(id) {
         });
 }
 
-
 //PUT - Actualizar un recurso existente
 function modifyObject() {
     return new Promise ((resolve, reject) => {
@@ -193,15 +178,9 @@ function modifyObject() {
             lastName: document.getElementsByName('lastName2')[0].value,
             email: document.getElementsByName('email2')[0].value,
             gender: document.getElementsByName('gender2')[0].value
-            //data: {
-            //    lastName: document.getElementsByName('lastName2')[0].value,
-            //    email: document.getElementsByName('email2')[0].value,
-            //    gender: document.getElementsByName('gender2')[0].value
-            //}
         };
         request.onload = () => {
             if(request.status == 200 || request.status == 204){
-                //resolve(JSON.parse(request.responseText))
                 resolve({
                     _id: id,
                     ...data
@@ -236,15 +215,11 @@ function updateObject() {
         modifyObject()
             .then(updatedObject => {
                 const row = document.getElementById(updatedObject._id)
-                //const row = document.getElementById(updatedObject.id)
                 if (row) {
                     row.cells[1].innerText = updatedObject.name;
                     row.cells[2].innerText = updatedObject.lastName;
                     row.cells[3].innerText = updatedObject.email;
                     row.cells[4].innerText = updatedObject.gender;
-                    //row.cells[2].innerText = updatedObject.data.lastName;
-                    //row.cells[3].innerText = updatedObject.data.email;
-                    //row.cells[4].innerText = updatedObject.data.gender;
                 }
                 $('#popUp').dialog('close');
                 clearInputs();
@@ -260,14 +235,10 @@ function updateObject() {
 
 function viewObject(object) {
     document.getElementsByName('id2')[0].value = object._id;
-    //document.getElementsByName('id2')[0].value = object.id;
     document.getElementsByName('name2')[0].value = object.name;
     document.getElementsByName('lastName2')[0].value = object.lastName;
     document.getElementsByName('email2')[0].value = object.email;
     document.getElementsByName('gender2')[0].value = object.gender;
-    //document.getElementsByName('lastName2')[0].value = object.data.lastName;
-    //document.getElementsByName('email2')[0].value = object.data.email;
-    //document.getElementsByName('gender2')[0].value = object.data.gender;
     $('#popUp').dialog({
         modal: true,
         width: 400,
