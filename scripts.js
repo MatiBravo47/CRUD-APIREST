@@ -34,7 +34,7 @@ function getObjects() {
             tbody.innerHTML = '';
             response.forEach(object => {
             if (object.email) { 
-                insertTr(object, true);
+                insertTr(object);
             }
         });
     })
@@ -67,7 +67,7 @@ function addObject() {
     })
 }
 
-function insertTr(object, canChange) {
+function insertTr(object) {
     const tbody = document.querySelector('tbody');
     const row = tbody.insertRow();
     row.setAttribute('id', object._id)
@@ -87,23 +87,21 @@ function insertTr(object, canChange) {
     var genderCell = row.insertCell()
     genderCell.innerHTML = object.gender;
 
-    if (canChange) {
-        const viewCell = row.insertCell()
-        const viewButton = document.createElement('button');
-        viewButton.className = 'btn btn-view';
-        viewButton.textContent = 'VER';
-        viewButton.addEventListener('click',() => viewObject(object));
+    const viewCell = row.insertCell()
+    const viewButton = document.createElement('button');
+    viewButton.className = 'btn btn-view';
+    viewButton.textContent = 'VER';
+    viewButton.addEventListener('click',() => viewObject(object));
 
-        viewCell.appendChild(viewButton); 
+    viewCell.appendChild(viewButton); 
         
-        const delCell = row.insertCell();
-        const delButton = document.createElement('button');
-        delButton.className = 'btn';
-        delButton.textContent = 'BORRAR';
-        delButton.addEventListener('click', () => deleteObject(object._id));
+    const delCell = row.insertCell();
+    const delButton = document.createElement('button');
+    delButton.className = 'btn';
+    delButton.textContent = 'BORRAR';
+    delButton.addEventListener('click', () => deleteObject(object._id));
         
-        delCell.appendChild(delButton);
-    }
+    delCell.appendChild(delButton);
     clearInputs()
 }
 
@@ -119,7 +117,7 @@ function saveObject() {
     ) {        
             addObject()
                 .then((response) => {
-                    insertTr(response, true);  
+                    insertTr(response);  
                     swal("Buen trabajo!", "Usuario agregado satisfactoriamente.", "success");               
                 })
                 .catch(reason => {
