@@ -20,9 +20,7 @@ function loadObjects(){
                 reject(Error(request.statusText))
             }
         }
-        request.onerror = () => {
-            reject(Error('Error: unexpected network error'));
-        } 
+        request.onerror = () => reject(Error("Error de red ")) 
         request.send()
     })
 }
@@ -33,14 +31,12 @@ function getObjects() {
             var tbody = document.querySelector('tbody');
             tbody.innerHTML = '';
             response.forEach(object => {
-            if (object.email) { 
                 insertTr(object);
-            }
+            });
+        })
+        .catch(reason => {
+            swal("Error","Error al cargar el objeto: " + reason.message);
         });
-    })
-    .catch(reason => {
-        console.error(reason)
-    });
 }
 
 //POST - Crear un nuevo recurso
@@ -56,19 +52,34 @@ function addObject() {
             gender: document.getElementById('gender').value 
         }; 
         request.onload = () => {
-                if(request.status == 200 || request.status == 201){
-                    resolve(JSON.parse(request.responseText))
-                } else {
-                    reject(Error(request.statusText))
-                }
+            if(request.status == 200 || request.status == 201){
+                resolve(JSON.parse(request.responseText))
+            } else {
+                reject(Error(request.statusText))
             }
+        }
         request.onerror = () => reject(Error("Error de red"))
         request.send(JSON.stringify(data)) 
     })
 }
 
+function viewObject(object) {
+    document.getElementsByName('id2')[0].value = object._id;
+    document.getElementsByName('name2')[0].value = object.name;
+    document.getElementsByName('lastName2')[0].value = object.lastName;
+    document.getElementsByName('email2')[0].value = object.email;
+    document.getElementsByName('gender2')[0].value = object.gender;
+    $('#popUp').dialog({
+        modal: true,
+        width: 400,
+        height: 350,
+        closeText: ''
+    }).css('font-size', '15px')
+}
+
 function insertTr(object) {
     const tbody = document.querySelector('tbody');
+    
     const row = tbody.insertRow();
     row.setAttribute('id', object._id)
     
@@ -92,15 +103,13 @@ function insertTr(object) {
     viewButton.className = 'btn btn-view';
     viewButton.textContent = 'VER';
     viewButton.addEventListener('click',() => viewObject(object));
-
     viewCell.appendChild(viewButton); 
         
     const delCell = row.insertCell();
     const delButton = document.createElement('button');
     delButton.className = 'btn';
     delButton.textContent = 'BORRAR';
-    delButton.addEventListener('click', () => deleteObject(object._id));
-        
+    delButton.addEventListener('click', () => deleteObject(object._id));        
     delCell.appendChild(delButton);
     clearInputs()
 }
@@ -121,7 +130,7 @@ function saveObject() {
                     swal("Buen trabajo!", "Usuario agregado satisfactoriamente.", "success");               
                 })
                 .catch(reason => {
-                    alert('Error: '+ reason.message);
+                    swal("Error","Error al guardar el objeto: " + reason.message);
                 });
     } else {
         swal("Error", "Por favor, complete todos los campos.", "error");
@@ -159,7 +168,7 @@ function deleteObject(id) {
             })
         })
         .catch(reason => {
-            alert('Error al eliminar el objeto: ' + reason.message);
+            swal("Error","Error al eliminar el objeto: " + reason.message);
         });
 }
 
@@ -187,9 +196,7 @@ function modifyObject() {
                 reject(Error(request.statusText))
             }
         }
-        request.onerror = () => {
-            reject(Error("Error de red"))
-        }
+        request.onerror = () => reject(Error("Error de red "))
         request.send(JSON.stringify(data))
     })
 }
@@ -224,23 +231,9 @@ function updateObject() {
                 swal("Usuario actualizado!", "El usuario ha sido actualizado correctamente.", "success");
             })
             .catch(reason => {
-                alert('Error al actualizar el objeto: ' + reason.message);
+                swal("Error","Error al actualizar el objeto: " + reason.message);
             });
         } else {
             swal("Error", "Por favor, complete todos los campos.", "error");
         }
-}
-
-function viewObject(object) {
-    document.getElementsByName('id2')[0].value = object._id;
-    document.getElementsByName('name2')[0].value = object.name;
-    document.getElementsByName('lastName2')[0].value = object.lastName;
-    document.getElementsByName('email2')[0].value = object.email;
-    document.getElementsByName('gender2')[0].value = object.gender;
-    $('#popUp').dialog({
-        modal: true,
-        width: 400,
-        height: 350,
-        closeText: ''
-    }).css('font-size', '15px')
 }
