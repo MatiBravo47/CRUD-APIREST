@@ -25,6 +25,24 @@ function loadObjects(){
     })
 }
 
+/*
+¿Cómo es el flujo?
+request.send(...)
+Envía la petición al servidor (por ejemplo, para crear un usuario).
+
+El servidor recibe la petición
+Procesa los datos y responde (por ejemplo, con el usuario creado).
+
+Cuando llega la respuesta del servidor
+Se ejecuta la función que pusiste en request.onload.
+
+Dentro de request.onload
+Si todo salió bien (status == 200 o 201), ahí llamás a resolve(...).
+
+Cuando llamás a resolve(...)
+El código que está esperando la promesa (el .then(...)) se ejecuta.
+*/
+
 //Llamaa a loadObjects(), limpia la tabla y agrega cada usuario a la tabla
 function getObjects() {
     loadObjects()
@@ -54,13 +72,13 @@ function addObject() {
         }; 
         request.onload = () => {
             if(request.status == 200 || request.status == 201){ //201 - Recurso creado exitosamente 
-                resolve(JSON.parse(request.responseText))
+                resolve(JSON.parse(request.responseText))//Respuesta de texto JSON a objeto JS para usar el codigo (.then)
             } else {
                 reject(Error(request.statusText))
             }
         }
-        request.onerror = () => reject(Error("Error de red"))
-        request.send(JSON.stringify(data)) //Envia los datos como JSON
+        request.onerror = () => reject(Error("Error de red")) //Se ejecuta solo cuando ocurre un error de red
+        request.send(JSON.stringify(data)) //Para enviar el objeto como texto JSON al servidor(API).
     })
 }
 
