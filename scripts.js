@@ -1,5 +1,5 @@
 //URL base de la API RESTful 
-const url = 'https://crudcrud.com/api/9492690e95db4b5a8ca56724056d9c1f/usuarios'
+const url = 'https://crudcrud.com/api/33142694f8d5451e8070e1f64fe7b5ae/usuarios'
 
 // Al cargar la página exitosamente, oculta el cuadro de diálogo y obtiene los objetos de la API
 window.onload = () => {
